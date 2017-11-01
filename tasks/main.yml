@@ -1,2 +1,61 @@
 ---
 # tasks file for aws_ec2_2fa
+- name: Install google-authenticator (RedHat)
+  yum:
+    name: google-authenticator
+    state: present
+  when: ansible_os_family == 'RedHat'
+     
+- name: Install google-authenticator (Debian)
+  apt: 
+    name:  libpam-google-authenticator
+    state: present
+  when: ansible_os_family == 'Debian'
+
+# Update pam.d configuration (RedHat only)
+- name: Modify pam.d to remove password requirement (RedHat)
+  lineinfile:
+    dest: /etc/pam.d/sshd
+    regexp: '^auth       substack     password-auth'
+    line: '#auth       substack     password-auth'
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Add Google Authenticator to pam.d (add nullok for service accounts) 
+  lineinfile: 
+    dest: /etc/pam.d/sshd
+    line: 'auth required pam_google_authenticator.so nullok'
+    insertafter: EOF
+
+# Update sshd configuration
+- name: Comment out all ChallengeResponseAuthentication lines (there MIGHT be a better way to do this)
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^ChallengeResponseAuthentication'
+    replace: '#ChallengeResponseAuthentication'
+   
+- name: Add 'ChallengeResponseAuthentication yes' to EOF
+  lineinfile: 
+    dest: /etc/ssh/sshd_config 
+    line:  'ChallengeResponseAuthentication yes'
+    insertafter: EOF
+
+- name: Modify AuthenticationMethods to include MFA as well as publickey
+  lineinfile: 
+    dest: /etc/ssh/sshd_config
+    line: 'AuthenticationMethods publickey,keyboard-interactive'
+    insertafter: EOF
+
+- name: Restart sshd
+  service: 
+    name: sshd
+    state: restarted
+
+# Add mfa.sh to /etc/profile
+- name: Create mfa.sh in /etc/profile
+  template: 
+    src: templates/mfa.sh.j2
+    dest: /etc/profile/mfa.sh
+    owner: root
+    group: root
+    mode: 0644
