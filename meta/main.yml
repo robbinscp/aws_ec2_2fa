@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Christopher Robbins
+  description: Ansible role to automate the deployment of two-factor authentication for AWS EC2 instances
+  company: Robbins Consulting Services
+  issue_tracker_url: https://github.com/robbinscp/aws_ec2_2fa/issues
+  license: license GPLv3
+  min_ansible_version: 1.2
+  platforms: []
+  galaxy_tags: 
+    - ssh
+    - development
+    - networking
+    - system
+    - aws
+  dependencies: []
