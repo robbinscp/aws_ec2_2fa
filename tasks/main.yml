@@ -22,7 +22,7 @@
   when: ansible_os_family == 'RedHat'
 
 - name: Modify pam.d to remove password requirement (Debian)
-  lineinefile: 
+  lineinfile: 
     dest: /etc/pam.d/sshd
     regexp: '^@include common-auth'
     line: '#@include common-auth'
