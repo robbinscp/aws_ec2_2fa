@@ -12,7 +12,7 @@
     state: present
   when: ansible_os_family == 'Debian'
 
-# Update pam.d configuration (RedHat only)
+# Update pam.d configuration
 - name: Modify pam.d to remove password requirement (RedHat)
   lineinfile:
     dest: /etc/pam.d/sshd
@@ -20,6 +20,14 @@
     line: '#auth       substack     password-auth'
     state: present
   when: ansible_os_family == 'RedHat'
+
+- name: Modify pam.d to remove password requirement (Debian)
+  lineinefile: 
+    dest: /etc/pam.d/sshd
+    regexp: '^@include common-auth'
+    line: '#@include common-auth'
+    state: present
+  when: ansible_os_family == 'Debian'
 
 - name: Add Google Authenticator to pam.d (add nullok for service accounts) 
   lineinfile: 
