@@ -40,7 +40,7 @@
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^ChallengeResponseAuthentication'
-    replace: '#ChallengeResponseAuthentication'
+    line: '#ChallengeResponseAuthentication'
    
 - name: Add 'ChallengeResponseAuthentication yes' to EOF
   lineinfile: 
@@ -63,7 +63,7 @@
 - name: Create mfa.sh in /etc/profile
   template: 
     src: templates/mfa.sh.j2
-    dest: /etc/profile/mfa.sh
+    dest: /etc/profile.d/mfa.sh
     owner: root
     group: root
     mode: 0644
