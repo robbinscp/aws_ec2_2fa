@@ -8,16 +8,16 @@ galaxy_info:
   platforms: 
     - name: Debian
       versions:
-      all
+      - all
     - name: Ubuntu
       versions:
-      all
+      - all
     - name: Fedora
       versions: 
-      all
+      - all
     - name: EL
       versions: 
-      all
+      - all
   galaxy_tags: 
     - ssh
     - development
