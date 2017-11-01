@@ -5,7 +5,19 @@ galaxy_info:
   issue_tracker_url: https://github.com/robbinscp/aws_ec2_2fa/issues
   license: license GPLv3
   min_ansible_version: 1.2
-  platforms: []
+  platforms: 
+    - name: Debian
+      versions:
+      all
+    - name: Ubuntu
+      versions:
+      all
+    - name: Fedora
+      versions: 
+      all
+    - name: EL
+      versions: 
+      all
   galaxy_tags: 
     - ssh
     - development
