@@ -1,5 +1,7 @@
 ---
-- hosts: localhost
+- hosts: all
   remote_user: root
   roles:
     - aws_ec2_2fa
+
+
